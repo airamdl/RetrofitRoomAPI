@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.ejemplollamarapi.network.product.model.ProductResponse
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -15,9 +16,11 @@ class ProductDBViewModel(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    private val _productList = MutableLiveData<List<ProductResponse>>(emptyList())
+    val productList: LiveData<List<ProductResponse>> = _productList
 
-    fun getFavoriteProductList(): Flow<List<Product>> {
-        return dao.getFavoriteProductList()
+    fun getFavouriteProductList(): Flow<List<Product>> {
+        return dao.getFavouriteProductList()
     }
 
     fun insertOrUpdateFavoriteProduct(product: Product) {
@@ -28,10 +31,10 @@ class ProductDBViewModel(
         }
     }
 
-    fun deleteFavoriteProduct(productId: Int) {
+    fun deleteFavouriteProduct(productId: Int) {
         viewModelScope.launch {
             _isLoading.value = true
-            dao.deleteFavoriteProduct(productId)
+            dao.deleteFavouriteProduct(productId)
             _isLoading.value = false
         }
     }

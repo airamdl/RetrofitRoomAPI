@@ -32,6 +32,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
+import com.example.ejemplollamarapi.db.ProductDBViewModel
 import com.example.ejemplollamarapi.db.ProductDatabase
 
 class MainActivity : ComponentActivity() {
@@ -59,6 +60,8 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     val productViewModel: ProductViewModel = viewModel()
                     val context = LocalContext.current
+                    val productDBViewModel: ProductDBViewModel= viewModel()
+
                     NavHost(
                         navController = navController,
                         startDestination = "product_list_screen",
@@ -68,7 +71,7 @@ class MainActivity : ComponentActivity() {
                             ProductListScreen(productViewModel, context, innerPadding)
                         }
                         composable(route = "favourite_list_screen") {
-                            FavouriteListScreen()
+                            FavouriteListScreen(productDBViewModel, context)
                         }
                         composable(route = "search_screen") {
                             SearchScreen()
@@ -112,7 +115,7 @@ fun BottomBarItems(navController: NavController) {
             Icon(
                 modifier = Modifier.fillMaxSize(),
                 imageVector = Icons.Filled.Search,
-                contentDescription = "Lista de favoritos"
+                contentDescription = "Lista de busqueda"
             )
         }
     }
